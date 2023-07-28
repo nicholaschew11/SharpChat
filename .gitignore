@@ -23,6 +23,5 @@ yarn-error.log*
 # Local Netlify folder
 .netlify
 
-.env
-dump.rdb
 docker-compose.yml
+.dockerignore

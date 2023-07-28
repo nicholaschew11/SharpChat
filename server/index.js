@@ -40,15 +40,14 @@ app.use(express.json());
 app.use(sessionMiddleware);
 app.use("/auth", authRouter);
 
-// app.set('trust proxy', 1);
-
 app.use(express.static(path.join(__dirname + "/build")));
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '/build', 'index.html'));
-});
 
 io.use((socket, next) => {
     sessionMiddleware(socket.request, {}, next);
+});
+
+app.get('/ping', (req, res) => {
+    res.send('Ping');
 });
 
 io.use(socketAuthorizeUser);
@@ -61,6 +60,6 @@ io.on("connect", (socket) => {
     socket.on("disconnecting", () => disconnectUser(socket));
 });
 
-server.listen(PORT, () => {
+server.listen(PORT, '0.0.0.0', () => {
     console.log(`SERVER RUNNING ON PORT ${PORT}`);
 });
